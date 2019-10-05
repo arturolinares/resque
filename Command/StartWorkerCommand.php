@@ -90,7 +90,8 @@ class StartWorkerCommand extends ContainerAwareCommand
         // Allow overriding of root_dir if deploying to a symlinked folder
         $workdirectory = $this->getContainer()->getParameter('resque.worker.root_dir');
 
-        if ($redisHost != NULL && $redisPort != NULL) {
+        // use the host and port to build the backend variable, except if the variable was already set.
+        if ($redisHost != NULL && $redisPort != NULL && !isset($env['REDIS_BACKEND'])) {
             $env['REDIS_BACKEND'] = $redisHost . ':' . $redisPort;
         }
 
