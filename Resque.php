@@ -85,6 +85,11 @@ class Resque implements EnqueueInterface
         ];
         $host = substr($host, 0, 1) == '/' ? $host : $host . ':' . $port;
 
+        if ($env_backend = getenv('REDIS_BACKEND')) {
+            \Resque::setBackend($env_backend, $database);
+            return;
+        }
+
         \Resque::setBackend($host, $database);
     }
 
